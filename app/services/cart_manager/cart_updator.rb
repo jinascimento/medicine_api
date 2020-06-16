@@ -1,14 +1,17 @@
 module CartManager
-  class CartUpdator < ApplicationService
+  class CartUpdator < CartManager::CartBase
 
-    def initialize(cart_item, attributes)
-      @cart = cart_item
+    def initialize(cart, attributes)
+      @cart = cart
       @attributes = attributes
     end
 
     def call
-      @cart.update!(@attributes)
-      @cart
+      ActiveRecord::Base.transaction do
+        @cart.update!(@attributes)
+        subtract_item_from_stock
+        @cart
+      end
     end
   end
 end

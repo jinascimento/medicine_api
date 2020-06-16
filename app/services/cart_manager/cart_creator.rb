@@ -1,5 +1,5 @@
 module CartManager
-  class CartCreator < ApplicationService
+  class CartCreator < CartManager::CartBase
 
     def initialize(customer, attributes)
       @customer = customer
@@ -7,9 +7,12 @@ module CartManager
     end
 
     def call
-      cart = @customer.carts.build(@attributes)
-      cart.save!
-      cart
+      @cart = @customer.carts.build(@attributes)
+      ActiveRecord::Base.transaction do
+        @cart.save!
+        subtract_item_from_stock
+        @cart
+      end
     end
   end
 end

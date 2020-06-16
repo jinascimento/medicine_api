@@ -10,6 +10,8 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
+  gem 'factory_bot_rails', '~> 4.0'
+  gem 'database_cleaner'
   gem 'pry'
   gem 'rspec-rails'
   gem 'shoulda-matchers'

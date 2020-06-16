@@ -4,7 +4,7 @@ class V1::CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customer = pagination(Customer.all)
+    @customer = Customer.all
     json_response(@customer)
   end
 
@@ -35,7 +35,7 @@ class V1::CustomersController < ApplicationController
 
   def customer_params
     # whitelist params
-    params.permit(:name)
+    params.require(:customer).permit(:name)
   end
 
   def set_customer

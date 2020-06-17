@@ -1,24 +1,18 @@
 module V1
   module Customers
     class CartsController < ApplicationController
-      before_action :set_customer, only: [:create]
-      before_action :set_cart, only: [:show, :update, :destroy]
+      before_action :set_customer, only: [:add_items]
+      before_action :set_cart, only: [:show, :destroy]
 
-      # POST /carts
-      def create
-        @cart = CartManager::CartCreator.call(@customer, cart_params)
+      def add_items
+        @cart = CartManager::AdderItem.call(@customer,
+                                            cart_params[:cart_items_attributes][0])
         json_response(@cart, :created)
       end
 
       # GET /carts/:id
       def show
         json_response(@cart)
-      end
-
-      # PUT /carts/:id
-      def update
-        @cart = CartManager::CartUpdator.call(@cart, cart_params)
-        json_response(@cart, :ok)
       end
 
       # DELETE /carts/:id

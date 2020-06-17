@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   api_version(module: 'V1', path: {value: 'v1'}) do
     resources :customers do
-      resources :carts, module: :customers
+      resources :carts, module: :customers do
+        collection do
+          post 'add_items'
+        end
+      end
     end
     resources :medicines
   end

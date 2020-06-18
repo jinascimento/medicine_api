@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2019_04_25_213811) do
     t.integer "cart_id"
     t.integer "medicine_id"
     t.integer "quantity", null: false
+    t.decimal "price", precision: 15, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -24,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_04_25_213811) do
 
   create_table "carts", force: :cascade do |t|
     t.integer "customer_id"
+    t.decimal "total_amount", precision: 15, scale: 2, null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,9 +40,9 @@ ActiveRecord::Schema.define(version: 2019_04_25_213811) do
 
   create_table "medicines", force: :cascade do |t|
     t.string "name", null: false
-    t.float "value", null: false
-    t.integer "quantity"
-    t.integer "stock"
+    t.decimal "value", precision: 15, scale: 2, default: "0.0", null: false
+    t.integer "quantity", default: 0
+    t.integer "stock", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

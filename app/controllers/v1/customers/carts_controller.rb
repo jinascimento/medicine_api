@@ -5,7 +5,7 @@ module V1
       before_action :set_cart, only: [:show, :destroy]
 
       def add_items
-        @cart = CartManager::AdderItem.call(@customer,
+        @cart = CartManager::CartLauncher.call(@customer,
                                             cart_params[:cart_items_attributes][0])
         json_response(@cart, :created)
       end

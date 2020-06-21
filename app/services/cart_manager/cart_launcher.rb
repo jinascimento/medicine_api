@@ -22,7 +22,16 @@ module CartManager
     end
 
     def perform_calculations
-      @cart.total_amount = cart_calc.total_amount
+      @cart.total_amount =
+        if has_different_items?
+          cart_calc.total_amount_with_discount
+        else
+          cart_calc.total_amount
+        end
+    end
+
+    def has_different_items?
+      @cart.cart_items.uniq(&:medicine_id).count > 1
     end
 
     def cart_calc

@@ -10,8 +10,8 @@ module Calcs
 
     def call
       discount_plans = []
-
       load_all_items.size.times do |count|
+        count += 1
         next if skip_calc_discount?(count)
 
         @group_by = count

@@ -4,7 +4,8 @@ class V1::CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customer = Customer.all
+    @customer = Customer.all.paginate(page: params[:page],
+                                      per_page: params[:per_page])
     json_response(@customer)
   end
 

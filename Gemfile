@@ -6,7 +6,9 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'rails', '~> 5.2.3'
 gem 'sqlite3'
 gem 'puma', '~> 3.11'
+gem 'rswag'
 gem 'versionist'
+gem 'will_paginate', '~> 3.1.0'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 

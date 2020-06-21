@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'factorial'
 
 module Calcs
   class DiscountCalc
@@ -7,45 +6,45 @@ module Calcs
 
     def initialize(cart)
       @cart = cart
-      @total_amount = 0
     end
 
     def call
-      separate_items
-      # group_diff_items
-      discounts_calculateds = []
-      @ungrouped_items.size.times do |count|
-        count += 1
-        next if [0, 1].include?(count)
-        next if count > 5
+      discount_plans = []
+
+      load_all_items.size.times do |count|
+        next if skip_calc_discount?(count)
+
         @group_by = count
-        separate_items
-        perform_calculation
-        discounts_calculateds << @total_amount
         @total_amount = 0
+
+        perform_calculation
+        discount_plans << @total_amount
+
+        load_all_items
       end
 
-      discounts_calculateds.min
+      discount_plans.min
     end
 
-    def separate_items
-      @ungrouped_items = []
+    private
+
+    def skip_calc_discount?(count)
+      true if count < 2 || count > 5
+    end
+
+    def load_all_items
+      @all_items = []
       @cart.cart_items.each do |cart_item|
         cart_item.quantity.times do
-          @ungrouped_items << Item.new(SecureRandom.uuid, cart_item.medicine_id, cart_item.price)
+          @all_items << Item.new(SecureRandom.uuid, cart_item.medicine_id, cart_item.price)
         end
       end
-      @ungrouped_items
+      @all_items
     end
 
     def perform_calculation
-      if combination.empty?
-        return @total_amount
-      end
-
-      if discount_plan_by_group.nil?
-        return @total_amount += Medicine.find(combination.first.medicine_id).value
-      end
+      return @total_amount if combination.empty?
+      return @total_amount += Medicine.find(combination.first.medicine_id).value if discount_plan_by_group.nil?
 
       apply_discount_on_total(price_medicines_group)
       remove_items_already_discounted
@@ -58,25 +57,15 @@ module Calcs
     end
 
     def combination
-      if @group_by == 5
-        return @ungrouped_items.combination(5).to_a.first || @ungrouped_items
-      elsif @group_by == 4
-        return @ungrouped_items.combination(4).to_a.first || @ungrouped_items
-      elsif @group_by == 3
-        return @ungrouped_items.combination(3).to_a.first || @ungrouped_items
-      elsif @group_by == 2
-        return @ungrouped_items.combination(2).to_a.first || @ungrouped_items
-      else
-        @ungrouped_items
-      end
+      @all_items.combination(@group_by).to_a.first || @all_items
     end
 
     def group_diff_items
-      @ungrouped_items.uniq(&:medicine_id)
+      @all_items.uniq(&:medicine_id)
     end
 
     def remove_items_already_discounted
-      @ungrouped_items.reject! { |item| combination.pluck(:id).include?(item.id) }
+      @all_items.reject! { |item| combination.pluck(:id).include?(item.id) }
     end
 
     def discount_plan_by_group

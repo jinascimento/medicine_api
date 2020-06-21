@@ -1,5 +1,6 @@
 module CartItemManager
-  class CartItemAdder < CartItemManager::BuildCartItem
+  class CartItemAdder < CartItemManager::CartItemTemplate
+    attr_reader :item
 
     def initialize(cart, item_attributes)
       @cart = cart
@@ -14,23 +15,6 @@ module CartItemManager
       subtract_item_from_stock
       perform_calculations
       @item
-    end
-
-    private
-
-    def subtract_item_from_stock
-      medicine = Medicine.find(@item.medicine_id)
-      medicine.lock!
-      medicine.stock = medicine.stock - @quantity_to_add
-      medicine.save!
-    end
-
-    def perform_calculations
-      @item.price = cart_item_calc.price
-    end
-
-    def cart_item_calc
-      cart_item_calc ||= Calcs::CartItemCalc.new(@item)
     end
 
   end

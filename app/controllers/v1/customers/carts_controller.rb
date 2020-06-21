@@ -6,7 +6,7 @@ module V1
 
       def add_items
         @cart = CartManager::CartLauncher.call(@customer,
-                                            cart_params[:cart_items_attributes][0])
+                                               cart_params[:cart_items_attributes][0])
         json_response(@cart, :created)
       end
 

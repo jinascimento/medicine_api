@@ -56,6 +56,8 @@ describe 'Medicines API' do
     get 'List all medicines' do
       tags 'Medicines'
       consumes 'application/json'
+      parameter name: :page, in: :query, type: :string
+      parameter name: :per_page, in: :query, type: :string
 
       response '200', 'OK' do
         schema type: :array,
@@ -77,6 +79,8 @@ describe 'Medicines API' do
                  },
                }
         FactoryBot.create(:medicine)
+        let(:page) { 1 }
+        let(:per_page) { 2 }
         run_test!
       end
     end

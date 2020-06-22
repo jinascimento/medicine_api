@@ -50,6 +50,8 @@ describe 'Customers API' do
     get 'List all customers' do
       tags 'Customers'
       consumes 'application/json'
+      parameter name: :page, in: :query, type: :string
+      parameter name: :per_page, in: :query, type: :string
 
       response '200', 'OK' do
         schema type: :array,
@@ -68,6 +70,8 @@ describe 'Customers API' do
                  },
                }
         FactoryBot.create(:customer)
+        let(:page) { 1 }
+        let(:per_page) { 2 }
         run_test!
       end
     end

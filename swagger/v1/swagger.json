@@ -5,6 +5,266 @@
     "version": "v1"
   },
   "paths": {
+    "/v1/customers/{customer_id}/carts/add_items": {
+      "post": {
+        "summary": "Add items",
+        "tags": [
+          "Carts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "cart",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cart_items_attributes": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "medicine_id": {
+                        "type": "number"
+                      },
+                      "quantity": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "customer_id",
+                "cart_item_attributes"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "total_amount": {
+                  "type": "string"
+                },
+                "customer_id": {
+                  "type": "number"
+                },
+                "cart_items": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "cart_id": {
+                        "type": "number"
+                      },
+                      "medicine_id": {
+                        "type": "number"
+                      },
+                      "quantity": {
+                        "type": "number"
+                      },
+                      "price": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "links": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "rel": {
+                        "type": "string"
+                      },
+                      "href": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/customers/{customer_id}/carts/{id}": {
+      "get": {
+        "summary": "Retrieves a cart",
+        "tags": [
+          "Carts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "total_amount": {
+                  "type": "string"
+                },
+                "customer_id": {
+                  "type": "number"
+                },
+                "cart_items": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "cart_id": {
+                        "type": "string"
+                      },
+                      "medicine_id": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "links": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "rel": {
+                        "type": "string"
+                      },
+                      "href": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "customer_id"
+              ]
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Destroy a cart",
+        "tags": [
+          "Carts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/customers": {
       "post": {
         "summary": "Create a customer",

@@ -11,10 +11,11 @@ module CartItemManager
 
     def call
       @item.quantity += @quantity_to_add
-
-      subtract_item_from_stock
-      perform_calculations
-      @item
+      ActiveRecord::Base.transaction do
+        subtract_item_from_stock
+        perform_calculations
+        @item
+      end
     end
 
   end

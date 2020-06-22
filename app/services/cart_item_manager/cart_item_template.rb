@@ -2,10 +2,7 @@ module CartItemManager
   class CartItemTemplate < ApplicationService
 
     def subtract_item_from_stock
-      medicine = Medicine.find(@item.medicine_id)
-      medicine.lock!
-      medicine.stock = medicine.stock - @item.quantity
-      medicine.save!
+      MedicineManager::MedicineStockRemover.call(@item.medicine, @item.quantity)
     end
 
     def perform_calculations

@@ -91,3 +91,35 @@ Um total de R$ 51.20
 Sendo que R$ 51.20 é o preço com o maior desconto e esse que deverá ser informado como resultado.
 
 Se tiver alguma dúvida entre em contato conosco.
+
+# Configurações do projeto
+
+* Ruby version: 2.4.0
+
+* Rails version: 5.2.3
+
+* Rode os comandos para configuração do ambiente Rails.
+
+ `bundle install`
+
+`rails db:setup`
+
+* Suba o servidor rails rodando o comando  
+  - `rails s`
+
+* O Projeto estara disponivel em 
+  - `http://localhost:3000`
+ 
+* Gerar documentação swagger: 
+  - `rails rswag:specs:swaggerize`
+ 
+Acessar URL com apis documentadas:
+
+localhost: http://localhost:3000/api-docs/index.html
+
+heroku: 
+
+* Testes unitários: 
+  - `rspec`
+  
+Cobertura de testes: 99.09% com Rcov gem

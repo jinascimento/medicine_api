@@ -117,7 +117,7 @@ Acessar URL com apis documentadas:
 
 localhost: http://localhost:3000/api-docs/index.html
 
-heroku: 
+heroku: https://medicineapi.herokuapp.com/api-docs/index.html
 
 * Testes unitários: 
   - `rspec`

@@ -60,10 +60,6 @@ module Calcs
       @all_items.combination(@group_by).to_a.first || @all_items
     end
 
-    def group_diff_items
-      @all_items.uniq(&:medicine_id)
-    end
-
     def remove_items_already_discounted
       @all_items.reject! { |item| combination.pluck(:id).include?(item.id) }
     end
